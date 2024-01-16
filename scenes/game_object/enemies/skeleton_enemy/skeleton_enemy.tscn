@@ -1,0 +1,71 @@
+[gd_scene load_steps=19 format=3 uid="uid://3gs4wffpavx8"]
+
+[ext_resource type="Script" path="res://scenes/game_object/enemies/skeleton_enemy/skeleton_enemy.gd" id="1_2c86v"]
+[ext_resource type="PackedScene" uid="uid://cknkxfddkv1pi" path="res://scenes/component/health_component.tscn" id="2_to1x0"]
+[ext_resource type="PackedScene" uid="uid://c5hrifto6rkxd" path="res://scenes/component/exp_drop_component.tscn" id="3_kdf6l"]
+[ext_resource type="PackedScene" uid="uid://c110tw78jy88l" path="res://scenes/component/velocity_component.tscn" id="4_x78lx"]
+[ext_resource type="PackedScene" uid="uid://dekeal6wuc2uy" path="res://scenes/component/hit_flash_component.tscn" id="5_rrp7a"]
+[ext_resource type="Shader" path="res://scenes/component/hit_flash_component.gdshader" id="6_0uypg"]
+[ext_resource type="PackedScene" uid="uid://chee50okmclps" path="res://scenes/component/death_component.tscn" id="7_0wl60"]
+[ext_resource type="PackedScene" uid="uid://fjitpjahfdyi" path="res://scenes/component/random_audio_player_2d_component.tscn" id="8_s2wpc"]
+[ext_resource type="AudioStream" uid="uid://c250d24eh2iji" path="res://assets/audio/enemy_hit/footstep_carpet_000.ogg" id="9_eagqr"]
+[ext_resource type="AudioStream" uid="uid://cjjhqaipqkkst" path="res://assets/audio/enemy_hit/footstep_carpet_001.ogg" id="10_0pd6t"]
+[ext_resource type="AudioStream" uid="uid://mk0a3apq5fmt" path="res://assets/audio/enemy_hit/footstep_carpet_002.ogg" id="11_6b1wu"]
+[ext_resource type="AudioStream" uid="uid://im3tiht5jrpm" path="res://assets/audio/enemy_hit/footstep_carpet_003.ogg" id="12_0l8l3"]
+[ext_resource type="AudioStream" uid="uid://b8xvdgdgoxngs" path="res://assets/audio/enemy_hit/footstep_carpet_004.ogg" id="13_a5aui"]
+[ext_resource type="PackedScene" uid="uid://bm5ncbrkql0s2" path="res://scenes/component/hurtbox_component.tscn" id="14_vl7mc"]
+[ext_resource type="Texture2D" uid="uid://r6hjjvxfmnfi" path="res://scenes/game_object/enemies/skeleton_enemy/skeleton_enemy.png" id="15_xwcjx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tx0xd"]
+resource_local_to_scene = true
+shader = ExtResource("6_0uypg")
+shader_parameter/lerp_percent = 0.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ohx68"]
+radius = 9.05539
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gdvpj"]
+radius = 5.0
+
+[node name="SkeletonEnemy" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 8
+collision_mask = 9
+motion_mode = 1
+script = ExtResource("1_2c86v")
+
+[node name="HealthComponent" parent="." instance=ExtResource("2_to1x0")]
+
+[node name="ExpDropComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_kdf6l")]
+health_component = NodePath("../HealthComponent")
+
+[node name="VelocityComponent" parent="." instance=ExtResource("4_x78lx")]
+
+[node name="HitFlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("5_rrp7a")]
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../Visuals/Sprite2D")
+hit_flash_material = SubResource("ShaderMaterial_tx0xd")
+
+[node name="DeathComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("7_0wl60")]
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../Visuals/Sprite2D")
+
+[node name="HitAudioComponent" parent="." instance=ExtResource("8_s2wpc")]
+max_distance = 300.0
+streams = Array[AudioStream]([ExtResource("9_eagqr"), ExtResource("10_0pd6t"), ExtResource("11_6b1wu"), ExtResource("12_0l8l3"), ExtResource("13_a5aui")])
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("14_vl7mc")]
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_ohx68")
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visuals"]
+position = Vector2(0, -8)
+texture = ExtResource("15_xwcjx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_gdvpj")

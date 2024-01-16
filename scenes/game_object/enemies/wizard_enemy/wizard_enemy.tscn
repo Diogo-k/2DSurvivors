@@ -1,0 +1,76 @@
+[gd_scene load_steps=19 format=3 uid="uid://ci8ihtrxt3lte"]
+
+[ext_resource type="PackedScene" uid="uid://cknkxfddkv1pi" path="res://scenes/component/health_component.tscn" id="1_mifon"]
+[ext_resource type="Script" path="res://scenes/game_object/enemies/wizard_enemy/wizard_enemy.gd" id="1_tfkck"]
+[ext_resource type="Texture2D" uid="uid://ciboi5dpnlun2" path="res://scenes/game_object/enemies/wizard_enemy/wizard_enemy.png" id="1_vepy2"]
+[ext_resource type="PackedScene" uid="uid://chee50okmclps" path="res://scenes/component/death_component.tscn" id="2_gpgui"]
+[ext_resource type="PackedScene" uid="uid://c110tw78jy88l" path="res://scenes/component/velocity_component.tscn" id="2_o286j"]
+[ext_resource type="PackedScene" uid="uid://bm5ncbrkql0s2" path="res://scenes/component/hurtbox_component.tscn" id="4_ht5xl"]
+[ext_resource type="PackedScene" uid="uid://c5hrifto6rkxd" path="res://scenes/component/exp_drop_component.tscn" id="4_lw333"]
+[ext_resource type="PackedScene" uid="uid://dekeal6wuc2uy" path="res://scenes/component/hit_flash_component.tscn" id="5_30dx6"]
+[ext_resource type="Shader" path="res://scenes/component/hit_flash_component.gdshader" id="6_x8k41"]
+[ext_resource type="PackedScene" uid="uid://fjitpjahfdyi" path="res://scenes/component/random_audio_player_2d_component.tscn" id="8_efkfi"]
+[ext_resource type="AudioStream" uid="uid://c250d24eh2iji" path="res://assets/audio/enemy_hit/footstep_carpet_000.ogg" id="9_u423v"]
+[ext_resource type="AudioStream" uid="uid://cjjhqaipqkkst" path="res://assets/audio/enemy_hit/footstep_carpet_001.ogg" id="10_nr1x7"]
+[ext_resource type="AudioStream" uid="uid://mk0a3apq5fmt" path="res://assets/audio/enemy_hit/footstep_carpet_002.ogg" id="11_ujhcu"]
+[ext_resource type="AudioStream" uid="uid://im3tiht5jrpm" path="res://assets/audio/enemy_hit/footstep_carpet_003.ogg" id="12_wlhse"]
+[ext_resource type="AudioStream" uid="uid://b8xvdgdgoxngs" path="res://assets/audio/enemy_hit/footstep_carpet_004.ogg" id="13_kd176"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pbheo"]
+resource_local_to_scene = true
+shader = ExtResource("6_x8k41")
+shader_parameter/lerp_percent = 0.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rsby6"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_roatw"]
+radius = 4.0
+
+[node name="WizardEnemy" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 8
+collision_mask = 9
+script = ExtResource("1_tfkck")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="HealthComponent" parent="." instance=ExtResource("1_mifon")]
+max_health = 50.0
+
+[node name="VelocityComponent" parent="." instance=ExtResource("2_o286j")]
+max_speed = 80
+accelaration = 1.0
+
+[node name="ExpDropComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("4_lw333")]
+drop_percent = 1.0
+health_component = NodePath("../HealthComponent")
+
+[node name="HitFlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("5_30dx6")]
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../Visuals/Sprite2D")
+hit_flash_material = SubResource("ShaderMaterial_pbheo")
+
+[node name="DeathComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("2_gpgui")]
+health_component = NodePath("../HealthComponent")
+sprite = NodePath("../Visuals/Sprite2D")
+
+[node name="HitAudioComponent" parent="." instance=ExtResource("8_efkfi")]
+max_distance = 300.0
+streams = Array[AudioStream]([ExtResource("9_u423v"), ExtResource("10_nr1x7"), ExtResource("11_ujhcu"), ExtResource("12_wlhse"), ExtResource("13_kd176")])
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Visuals"]
+texture = ExtResource("1_vepy2")
+offset = Vector2(0, -8)
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("4_ht5xl")]
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+position = Vector2(0, -7)
+shape = SubResource("CircleShape2D_rsby6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_roatw")

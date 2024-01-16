@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://fjitpjahfdyi"]
+
+[ext_resource type="Script" path="res://scenes/component/random_audio_player_2d_component.gd" id="1_w8a1k"]
+
+[node name="RandomAudioPlayer2DComponent" type="AudioStreamPlayer2D"]
+bus = &"sfx"
+script = ExtResource("1_w8a1k")

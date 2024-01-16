@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://dnvocprrw8w1l"]
+
+[ext_resource type="Script" path="res://scenes/manager/arena_time_manager.gd" id="1_dyqqh"]
+[ext_resource type="PackedScene" uid="uid://bk6lj5o0o3tn7" path="res://scenes/UI/end_screen.tscn" id="2_ba7sf"]
+
+[sub_resource type="GDScript" id="GDScript_o3j46"]
+script/source = "extends Timer
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+"
+
+[node name="ArenaTimeManager" type="Node"]
+script = ExtResource("1_dyqqh")
+end_screen_scene = ExtResource("2_ba7sf")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 600.0
+one_shot = true
+autostart = true
+script = SubResource("GDScript_o3j46")
