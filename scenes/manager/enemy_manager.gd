@@ -2,6 +2,7 @@ extends Node
 
 const SPAWN_RADIUS = 350
 
+@export var slime_enemy_scene: PackedScene
 @export var skeleton_enemy_scene: PackedScene
 @export var bat_enemy_scene: PackedScene
 @export var wizard_enemy_scene: PackedScene
@@ -15,6 +16,7 @@ var enemy_table = WeightedTable.new()
 var number_to_spawn = 1
 
 func _ready():
+	enemy_table.add_item(slime_enemy_scene, 15)
 	enemy_table.add_item(skeleton_enemy_scene, 15)
 	
 	base_spawn_time = timer.wait_time
@@ -66,8 +68,11 @@ func on_arena_difficulty_increased(arena_difficulty: int):
 	# 6 = 30 seconds
 	if arena_difficulty == 30:
 		enemy_table.add_item(bat_enemy_scene, 10)
+		return
 	elif arena_difficulty == 60:
 		enemy_table.add_item(wizard_enemy_scene, 5)
+		return
 	
 	if (arena_difficulty % 30) == 0:
 		number_to_spawn += 1
+		return

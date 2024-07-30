@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://3gs4wffpavx8"]
+[gd_scene load_steps=26 format=3 uid="uid://3gs4wffpavx8"]
 
 [ext_resource type="Script" path="res://scenes/game_object/enemies/skeleton_enemy/skeleton_enemy.gd" id="1_2c86v"]
 [ext_resource type="PackedScene" uid="uid://cknkxfddkv1pi" path="res://scenes/component/health_component.tscn" id="2_to1x0"]
@@ -14,7 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://im3tiht5jrpm" path="res://assets/audio/enemy_hit/footstep_carpet_003.ogg" id="12_0l8l3"]
 [ext_resource type="AudioStream" uid="uid://b8xvdgdgoxngs" path="res://assets/audio/enemy_hit/footstep_carpet_004.ogg" id="13_a5aui"]
 [ext_resource type="PackedScene" uid="uid://bm5ncbrkql0s2" path="res://scenes/component/hurtbox_component.tscn" id="14_vl7mc"]
-[ext_resource type="Texture2D" uid="uid://r6hjjvxfmnfi" path="res://scenes/game_object/enemies/skeleton_enemy/skeleton_enemy.png" id="15_xwcjx"]
+[ext_resource type="Texture2D" uid="uid://bvc4kvo66dojj" path="res://scenes/game_object/enemies/skeleton_enemy/Run_noweap.png" id="16_pj6ib"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tx0xd"]
 resource_local_to_scene = true
@@ -23,6 +23,56 @@ shader_parameter/lerp_percent = 0.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ohx68"]
 radius = 9.05539
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jtmam"]
+atlas = ExtResource("16_pj6ib")
+region = Rect2(0, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2uinh"]
+atlas = ExtResource("16_pj6ib")
+region = Rect2(64, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kwe0x"]
+atlas = ExtResource("16_pj6ib")
+region = Rect2(128, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6m4a0"]
+atlas = ExtResource("16_pj6ib")
+region = Rect2(192, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vjdd0"]
+atlas = ExtResource("16_pj6ib")
+region = Rect2(256, 0, 64, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8cdeo"]
+atlas = ExtResource("16_pj6ib")
+region = Rect2(320, 0, 64, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kw4io"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jtmam")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2uinh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kwe0x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6m4a0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vjdd0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8cdeo")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 10.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gdvpj"]
 radius = 5.0
@@ -40,14 +90,12 @@ health_component = NodePath("../HealthComponent")
 
 [node name="VelocityComponent" parent="." instance=ExtResource("4_x78lx")]
 
-[node name="HitFlashComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("5_rrp7a")]
+[node name="HitFlashComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("5_rrp7a")]
 health_component = NodePath("../HealthComponent")
-sprite = NodePath("../Visuals/Sprite2D")
 hit_flash_material = SubResource("ShaderMaterial_tx0xd")
 
-[node name="DeathComponent" parent="." node_paths=PackedStringArray("health_component", "sprite") instance=ExtResource("7_0wl60")]
+[node name="DeathComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("7_0wl60")]
 health_component = NodePath("../HealthComponent")
-sprite = NodePath("../Visuals/Sprite2D")
 
 [node name="HitAudioComponent" parent="." instance=ExtResource("8_s2wpc")]
 max_distance = 300.0
@@ -62,9 +110,10 @@ shape = SubResource("CircleShape2D_ohx68")
 
 [node name="Visuals" type="Node2D" parent="."]
 
-[node name="Sprite2D" type="Sprite2D" parent="Visuals"]
-position = Vector2(0, -8)
-texture = ExtResource("15_xwcjx")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visuals"]
+sprite_frames = SubResource("SpriteFrames_kw4io")
+animation = &"new_animation"
+autoplay = "new_animation"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -5)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://r6hjjvxfmnfi"
-path="res://.godot/imported/skeleton_enemy.png-746619dd7107bb86169b5745fe7a7f9a.ctex"
+uid="uid://b6qwrg4wvah0b"
+path="res://.godot/imported/rogue.png-7e059681ba6b748b9983ceb7cb96bc52.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/game_object/enemies/skeleton_enemy/skeleton_enemy.png"
-dest_files=["res://.godot/imported/skeleton_enemy.png-746619dd7107bb86169b5745fe7a7f9a.ctex"]
+source_file="res://scenes/game_object/player/rogue/rogue.png"
+dest_files=["res://.godot/imported/rogue.png-7e059681ba6b748b9983ceb7cb96bc52.ctex"]
 
 [params]
 

@@ -9,7 +9,7 @@ func _ready():
 	$%QuitButton.pressed.connect(on_quit_pressed)
 
 func on_play_pressed():
-	ScreenTransition.transition_to_scene("res://scenes/main_new/main_new.tscn")
+	ScreenTransition.transition_to_scene("res://scenes/main/main.tscn")
 
 func on_upgrades_pressed():
 	ScreenTransition.transition_to_scene("res://scenes/UI/meta_upgrade_menu.tscn")

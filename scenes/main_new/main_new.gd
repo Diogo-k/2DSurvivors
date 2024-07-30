@@ -5,7 +5,7 @@ extends Node
 var pause_menu = preload("res://scenes/UI/paused_menu.tscn")
 
 func _ready():
-	$%Player.health_component.died.connect(on_player_died)
+	$%Rogue.health_component.died.connect(on_player_died)
 
 func _unhandled_input(event):
 	if event.is_action_pressed("pause"):

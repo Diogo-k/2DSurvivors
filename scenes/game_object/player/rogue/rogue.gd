@@ -9,7 +9,6 @@ extends CharacterBody2D
 @onready var abilities = $Abilities
 
 @onready var animation_player = $AnimationPlayer
-@onready var animated_sprite_2d = $Visuals/AnimatedSprite2D
 @onready var visuals = $Visuals
 
 var number_colliding_bodies = 0
@@ -35,10 +34,8 @@ func _process(delta):
 	
 	if movement_vector.x != 0 || movement_vector.y != 0:
 		animation_player.play("walk")
-		#animated_sprite_2d.play("walk")
 	else:
 		animation_player.play("RESET")
-		#animated_sprite_2d.play("default")
 	
 	var mov_sign = sign(movement_vector.x)
 	if mov_sign != 0:
